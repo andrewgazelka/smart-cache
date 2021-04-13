@@ -15,7 +15,6 @@ def get_function_hash(f):
     return get_instruction_hash(dis.get_instructions(f))
 
 
-#
 def get_referenced_function_names(instructions) -> list[str]:
     return [ins.argval for ins in instructions if ins.opname == 'LOAD_GLOBAL']
 
@@ -49,12 +48,14 @@ def function_deep_hash(input_func):
 def smart_cache(input_func):
     deep_hash = function_deep_hash(input_func)
     func_name = input_func.__name__
-    cache_file_name = func_name + '-' + deep_hash + '.pickle'
+    cache_file_name = func_name + '.pickle'
     cache = {}
 
     if path.exists(cache_file_name):
         with open(cache_file_name, 'rb') as cache_file:
-            cache = pickle.load(cache_file)
+            cache_hash, cache_temp = pickle.load(cache_file)
+            if cache_hash == deep_hash:
+                cache = cache_temp
 
     def wrapper(*args, **kwargs):
         frozen_set = frozenset(kwargs.items())
@@ -66,7 +67,7 @@ def smart_cache(input_func):
         cache[hash_input] = result
 
         with open(cache_file_name, 'wb') as cache_file:
-            pickle.dump(cache, cache_file, protocol=4)
+            pickle.dump((deep_hash, cache), cache_file, protocol=4)
 
         return result
 
@@ -75,7 +76,7 @@ def smart_cache(input_func):
 
 @smart_cache
 def function_to_cache(a):
-    return a + 1
+    return a + 2
 
 
 if __name__ == "__main__":
