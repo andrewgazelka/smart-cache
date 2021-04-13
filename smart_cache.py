@@ -64,7 +64,6 @@ def smart_cache(input_func):
         frozen_set = frozenset(kwargs.items())
         hash_input = hash((*args, *frozen_set))
         if hash_input in cache:
-            print("cached", func_name)
             return cache[hash_input]
         result = input_func(*args, **kwargs)
         cache[hash_input] = result
