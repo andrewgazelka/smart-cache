@@ -18,18 +18,53 @@ pip3 install smart-cache
 ```
 
 ## Benchmarks
-Running the `fib` (cached) and `bad_fib` in `example/example.py` we get after one run. Cached is `O(1)`.
-
+Suppose we run 
 ```
-total time cached: 0.48ms
-total time uncached: 31723.69ms
-difference:  0
-```
+@smart_cache
+def fib(n):
+    if n == 0:
+        return 0
+    if n == 1:
+        return 1
+    return fib(n - 1) + fib(n - 2)
 
-The first run we get 
+
+def bad_fib(n):
+    if n == 0:
+        return 0
+    if n == 1:
+        return 1
+    return bad_fib(n - 1) + bad_fib(n - 2)
+
+
+if __name__ == "__main__":
+    start = time.time()
+    cached_result = fib(40)
+    end = time.time()
+
+    print("total time cached: {:.2f}ms".format((end - start) * 1000))
+
+    start = time.time()
+    actual_result = bad_fib(40)
+    end = time.time()
+    print("total time uncached: {:.2f}ms".format((end - start) * 1000))
+
+    difference = actual_result - cached_result
+    print("difference: ", difference)
+```
+to benchmark the times between recursive fibonacci cached and not cached.
+
+The first run we get times of
 ```
 total time cached: 0.58ms
 total time uncached: 31840.58ms
+difference:  0
+```
+
+The second time will be even faster—we only need one lookup since `fib(40)` is cached. We get
+```
+total time cached: 0.48ms
+total time uncached: 31723.69ms
 difference:  0
 ```
 
