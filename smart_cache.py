@@ -21,7 +21,6 @@ q = queue.Queue(maxsize=100)
 
 def worker():
     while threading.main_thread().is_alive():
-        print("awaiting get")
         try:
             data: CacheData = q.get(timeout=0.1) # 0.1 second. Allows for checking if the main thread is alive
             while not q.empty(): # so we only write the latest value
