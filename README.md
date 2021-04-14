@@ -1,4 +1,5 @@
 # Smart Cache
+<sub><sup>This is not production ready! There are still likely many bugs and there are several performance improvements which can be made</sup></sub>
 
 There are several Python caching alternatives, but there is only one to rule them all 💍.
 
