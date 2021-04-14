@@ -1,1 +1,4 @@
 *.pickle
+dist/
+smart_cache.egg-info/
+build/
