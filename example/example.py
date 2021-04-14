@@ -1,4 +1,4 @@
-from smart_cache import smart_cache
+from smart_cache import smart_cache, t
 
 
 @smart_cache

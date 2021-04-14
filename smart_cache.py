@@ -2,7 +2,39 @@ import dis
 import hashlib
 import inspect
 import pickle
+import queue
+import threading
 from os import path
+from threading import Thread
+
+
+class CacheData:
+    calculated = False
+    cache_file_name: str
+    cache = {}
+    deep_hash: str
+
+
+# since we only care about latest
+q = queue.Queue(maxsize=100)
+
+
+def worker():
+    while threading.main_thread().is_alive():
+        print("awaiting get")
+        try:
+            data: CacheData = q.get(timeout=0.1) # 0.1 second. Allows for checking if the main thread is alive
+            while not q.empty(): # so we only write the latest value
+                data = q.get(block=False)
+            with open(data.cache_file_name, 'wb') as cache_file:
+                pickle.dump((data.deep_hash, data.cache), cache_file, protocol=4)
+            q.task_done()
+        except queue.Empty:
+            continue
+
+
+t = Thread(target=worker)
+t.start()
 
 
 def __get_instruction_hash(instructions):
@@ -49,11 +81,12 @@ def __function_deep_hash(input_func):
     return hashlib.sha256(hash_str, usedforsecurity=False).hexdigest()
 
 
-class CacheData:
-    calculated = False
-    file_name: str
-    cache = {}
-    deep_hash: str
+# A thread that consumes data
+def consumer(in_q):
+    while True:
+        # Get some data
+        data = in_q.get()
+        # Process the data
 
 
 def smart_cache(input_func):
@@ -79,10 +112,7 @@ def smart_cache(input_func):
             return data.cache[hash_input]
         result = input_func(*args, **kwargs)
         data.cache[hash_input] = result
-
-        with open(data.cache_file_name, 'wb') as cache_file:
-            pickle.dump((data.deep_hash, data.cache), cache_file, protocol=4)
-
+        q.put(data, block=False)
         return result
 
     return wrapper
