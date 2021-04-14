@@ -18,7 +18,7 @@ pip3 install smart-cache
 ```
 
 ## Benchmarks
-Suppose we run 
+Let's benchmark the times between cached and non-cached versions of recursive fibonacci.
 ```python
 @smart_cache
 def fib(n):
@@ -52,9 +52,8 @@ if __name__ == "__main__":
     difference = actual_result - cached_result
     print("difference: ", difference)
 ```
-to benchmark the times between recursive fibonacci cached and not cached.
 
-The first run we get times of
+The first run (without any previous caching) we get times of
 ```
 total time cached: 0.58ms
 total time uncached: 31840.58ms
