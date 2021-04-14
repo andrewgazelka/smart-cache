@@ -38,7 +38,7 @@ def abc():
     return x
 ```
 
-All caches will be invalidated. However, if `abc` wer
+All caches will be invalidated. However, if `abc` were
 changed to
 
 ```python
@@ -49,7 +49,7 @@ def abc():
 ```
 
 The cache will not be invalidated because even though the 
-code changes---none of the byte code changes.
+code changes—none of the byte code changes.
 
 Similary if we add another function `xyz()`,
 
