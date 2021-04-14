@@ -19,7 +19,7 @@ pip3 install smart-cache
 
 ## Benchmarks
 Suppose we run 
-```
+```python
 @smart_cache
 def fib(n):
     if n == 0:
