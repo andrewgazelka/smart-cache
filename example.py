@@ -1,15 +1,14 @@
 from smart_cache import smart_cache
 
 
-def abc():
-    x = 2+2
-    return x
-
-
 @smart_cache
-def tester():
-    return 1 + abc()
+def fib(n):
+    if n == 0:
+        return 0
+    if n == 1:
+        return 1
+    return fib(n - 1) + fib(n - 2)
 
 
 if __name__ == "__main__":
-    print(tester())
+    print(fib(6))

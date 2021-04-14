@@ -2,7 +2,6 @@ import dis
 import hashlib
 import inspect
 import pickle
-import sys
 from os import path
 
 
@@ -37,6 +36,8 @@ def __function_deep_hash(input_func):
         func_name = frontier.pop()
         closed_set.add(func_name)
         func_ref = getattr(module, func_name, None)
+        if func_ref is None:
+            raise Exception("no func ref for %s" % func_name)
         instructions = dis.get_instructions(func_ref)
         instruction_hashes.append(__get_instruction_hash(instructions))
         child_names = __get_referenced_function_names(instructions)
@@ -48,28 +49,39 @@ def __function_deep_hash(input_func):
     return hashlib.sha256(hash_str, usedforsecurity=False).hexdigest()
 
 
-def smart_cache(input_func):
-    deep_hash = __function_deep_hash(input_func)
-    func_name = input_func.__name__
-    cache_file_name = func_name + '.pickle'
+class CacheData:
+    calculated = False
+    file_name: str
     cache = {}
+    deep_hash: str
 
-    if path.exists(cache_file_name):
-        with open(cache_file_name, 'rb') as cache_file:
-            cache_hash, cache_temp = pickle.load(cache_file)
-            if cache_hash == deep_hash:
-                cache = cache_temp
+
+def smart_cache(input_func):
+    data = CacheData()  # because we need a reference not a value or compile error
+
+    func_name = input_func.__name__
+
+    data.cache_file_name = func_name + '.pickle'
 
     def wrapper(*args, **kwargs):
+        if not data.calculated:
+            data.deep_hash = __function_deep_hash(input_func)
+            if path.exists(data.cache_file_name):
+                with open(data.cache_file_name, 'rb') as cache_file:
+                    cache_hash, cache_temp = pickle.load(cache_file)
+                    if cache_hash == data.deep_hash:
+                        data.cache = cache_temp
+
+            data.calculated = True
         frozen_set = frozenset(kwargs.items())
         hash_input = hash((*args, *frozen_set))
-        if hash_input in cache:
-            return cache[hash_input]
+        if hash_input in data.cache:
+            return data.cache[hash_input]
         result = input_func(*args, **kwargs)
-        cache[hash_input] = result
+        data.cache[hash_input] = result
 
-        with open(cache_file_name, 'wb') as cache_file:
-            pickle.dump((deep_hash, cache), cache_file, protocol=4)
+        with open(data.cache_file_name, 'wb') as cache_file:
+            pickle.dump((data.deep_hash, data.cache), cache_file, protocol=4)
 
         return result
 
