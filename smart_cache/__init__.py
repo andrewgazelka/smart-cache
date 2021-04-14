@@ -16,14 +16,14 @@ class CacheData:
 
 
 # since we only care about latest
-q = queue.Queue(maxsize=100)
+q = queue.Queue()
 
 
 def worker():
     while threading.main_thread().is_alive():
         try:
-            data: CacheData = q.get(timeout=0.1) # 0.1 second. Allows for checking if the main thread is alive
-            while not q.empty(): # so we only write the latest value
+            data: CacheData = q.get(timeout=0.1)  # 0.1 second. Allows for checking if the main thread is alive
+            while not q.empty():  # so we only write the latest value
                 data = q.get(block=False)
             with open(data.cache_file_name, 'wb') as cache_file:
                 pickle.dump((data.deep_hash, data.cache), cache_file, protocol=4)
