@@ -1,4 +1,9 @@
 # Smart Cache
+
+[![PyPI pyversions](https://img.shields.io/pypi/pyversions/smart-cache.svg)](https://pypi.python.org/pypi/smart-cache/)
+[![PyPI version shields.io](https://img.shields.io/pypi/v/smart-cache.svg)](https://pypi.python.org/pypi/smart-cache/)
+![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)
+
 <sub><sup>This is not production ready! There are still likely many bugs and there are several performance improvements which can be made</sup></sub>
 
 There are several Python caching alternatives, but there is only one to rule them all 💍.
