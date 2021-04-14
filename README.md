@@ -11,6 +11,22 @@ functions have been changed, _Smart Cache_ does the work for you.
 The only thing to pay attention to is that your functions are *pure*! If they have 
 side effects, smart cache will not work.
 
+## Benchmarks
+Running the `fib` (cached) and `bad_fib` in `example/example.py` we get after one run. Cached is `O(1)`.
+
+```
+total time cached: 0.48ms
+total time uncached: 31723.69ms
+difference:  0
+```
+
+The first run we get 
+```
+total time cached: 0.58ms
+total time uncached: 31840.58ms
+difference:  0
+```
+
 ## Simple Example
 Suppose we run
 ```python
