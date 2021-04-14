@@ -38,7 +38,7 @@ def abc():
     return x
 ```
 
-All caches will be invalidated. However, if `abc` wer
+All caches will be invalidated. However, if `abc` were
 changed to
 
 ```python
