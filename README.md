@@ -80,4 +80,4 @@ if __name__ == "__main__":
 ```
 
 will run in `O(n)` time when it is first run
-and `O(1)` time after that.
+and `O(1)` the time after that.
