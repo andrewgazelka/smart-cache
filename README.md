@@ -11,6 +11,12 @@ functions have been changed, _Smart Cache_ does the work for you.
 The only thing to pay attention to is that your functions are *pure*! If they have 
 side effects, smart cache will not work.
 
+## Installation
+
+```bash
+pip3 install smart-cache
+```
+
 ## Benchmarks
 Running the `fib` (cached) and `bad_fib` in `example/example.py` we get after one run. Cached is `O(1)`.
 
