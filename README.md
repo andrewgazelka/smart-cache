@@ -1,3 +1,9 @@
+
+<p align="center">
+  <img width="700" src="https://user-images.githubusercontent.com/7644264/114815257-78e8e800-9d7b-11eb-8a59-ebd6181e916e.gif">
+</p>
+
+
 # Smart Cache
 
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/smart-cache.svg)](https://pypi.python.org/pypi/smart-cache/)
