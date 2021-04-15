@@ -13,8 +13,7 @@ with the same hash will be cached cross-run. Furthermore,
 **the cache will be invalidated if the method bytecode OR the bytecode of method dependencies changes**. This allows for fast rapid prototyping. You do not have to focus on which
 functions have been changed, _Smart Cache_ does the work for you.
 
-The only thing to pay attention to is that your functions are *pure*! If they have 
-side effects, smart cache will not work.
+The only thing to pay attention to is that your functions are *pure*! This <sub><sup>basically</sub></sup> means that the same arguments will always yield the same result.  If it doesn't, then don't include the `@smart_cache` decorator on that function—it can't be cached!
 
 ## Installation
 
