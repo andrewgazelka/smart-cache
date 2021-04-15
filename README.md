@@ -122,7 +122,7 @@ def xyz(a_param):
 
 The cache will _also_ NOT be invalidated because although
 the bytecode of the file changes, the bytecode of neither the function `tester`
-or its dependencies change.
+nor its dependencies change.
 
 ## Recursive Functions
 Recursive functions also work as expected!
