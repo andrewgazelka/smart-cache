@@ -83,7 +83,7 @@ def __function_deep_hash(input_func: callable) -> str:
     base_instructions = []
     try:
         base_instructions = list(dis.get_instructions(input_func))
-    except:
+    except TypeError:
         base_instructions = []
 
     instruction_hashes.append(__get_instruction_hash(base_instructions))
@@ -97,7 +97,11 @@ def __function_deep_hash(input_func: callable) -> str:
         func_ref = getattr(module, func_name, None)
         if func_ref is None:
             raise Exception(f"no func ref for {func_name}")
-        instructions = dis.get_instructions(func_ref)
+        instructions = []
+        try:
+            instructions = dis.get_instructions(func_ref)
+        except TypeError:
+            instructions = []
         instruction_hashes.append(__get_instruction_hash(instructions))
         child_names = __get_referenced_function_names(instructions)
         for child_name in child_names:
