@@ -80,7 +80,12 @@ def __function_deep_hash(input_func: callable) -> str:
     instruction_hashes = []
     frontier = set()
 
-    base_instructions = list(dis.get_instructions(input_func))
+    base_instructions = []
+    try:
+        base_instructions = list(dis.get_instructions(input_func))
+    except:
+        base_instructions = []
+
     instruction_hashes.append(__get_instruction_hash(base_instructions))
     child_names = __get_referenced_function_names(base_instructions)
     for name in child_names:
