@@ -1,10 +1,12 @@
+"""Examples"""
 import time
 
 from smart_cache import smart_cache
 
 
 @smart_cache
-def fib(n):
+def fib(n: int):
+    """Recursive fibonacci sequence (cached)"""
     if n == 0:
         return 0
     if n == 1:
@@ -12,7 +14,8 @@ def fib(n):
     return fib(n - 1) + fib(n - 2)
 
 
-def bad_fib(n):
+def bad_fib(n: int):
+    """Recursive fibonacci sequence (not cached)"""
     if n == 0:
         return 0
     if n == 1:
@@ -25,12 +28,15 @@ if __name__ == "__main__":
     cached_result = fib(40)
     end = time.time()
 
-    print("total time cached: {:.2f}ms".format((end - start) * 1000))
+    d_time = (end - start) * 1000
+    print(f"total time cached: {d_time:.2f}ms")
 
     start = time.time()
     actual_result = bad_fib(40)
     end = time.time()
-    print("total time uncached: {:.2f}ms".format((end - start) * 1000))
+
+    d_time = (end - start) * 1000
+    print(f"total time uncached: {d_time:.2f}ms")
 
     difference = actual_result - cached_result
     print("difference: ", difference)
