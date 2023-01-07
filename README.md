@@ -27,6 +27,12 @@ The only thing to pay attention to is that your functions are *pure*! This <sub>
 pip3 install smart-cache
 ```
 
+Make sure to execute
+```bash
+export PYTHONHASHSEED=0
+```
+as [hashes are by default salted](https://docs.python.org/3/using/cmdline.html#cmdoption-R).
+
 ## Benchmarks
 Let's benchmark the times between cached and non-cached versions of recursive fibonacci.
 ```python

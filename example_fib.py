@@ -7,6 +7,8 @@ from smart_cache import smart_cache
 @smart_cache
 def fib(n: int):
     """Recursive fibonacci sequence (cached)"""
+
+    print(f"uncached fib {n}")
     if n == 0:
         return 0
     if n == 1:
