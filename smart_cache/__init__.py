@@ -95,13 +95,15 @@ def __function_deep_hash(input_func: callable) -> str:
         func_name = frontier.pop()
         closed_set.add(func_name)
         func_ref = getattr(module, func_name, None)
-        if func_ref is None:
-            raise Exception(f"no func ref for {func_name}")
+
         instructions = []
-        try:
-            instructions = dis.get_instructions(func_ref)
-        except TypeError:
+        if func_ref is None:
             instructions = []
+        else:
+            try:
+                instructions = dis.get_instructions(func_ref)
+            except TypeError:
+                instructions = []
         instruction_hashes.append(__get_instruction_hash(instructions))
         child_names = __get_referenced_function_names(instructions)
         for child_name in child_names:
