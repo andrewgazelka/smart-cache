@@ -12,8 +12,6 @@
 
 <sub><sup>This is not production ready! There are still likely many bugs and there are several performance improvements which can be made</sup></sub>
 
-There are several Python caching alternatives, but there is only one to rule them all 💍.
-
 Introducing smart cache—apply the `@smart_cache` decorator and all inputs
 with the same hash will be cached cross-run. Furthermore,
 **the cache will be invalidated if the method bytecode OR the bytecode of method dependencies changes**. This allows for fast rapid prototyping. You do not have to focus on which
